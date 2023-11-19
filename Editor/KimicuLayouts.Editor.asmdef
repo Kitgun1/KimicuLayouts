@@ -1,0 +1,17 @@
+{
+    "name": "KimicuLayouts.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d614df85e0241c54ead02f22e1b056d2",
+        "GUID:56315a2471583a747a49644e8ab43986"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
