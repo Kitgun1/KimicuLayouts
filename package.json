@@ -1,0 +1,11 @@
+﻿{
+    "name": "com.blackbox.kilayouts",
+    "version": "0.0.1",
+    "author": "Kimicu",
+    "displayName": "Kimicu Layouts",
+    "description": "Package with layouts.",
+    "unity": "2019.1",
+    "changelogUrl": "https://github.com/Kitgun1/KimicuLayouts/blob/main/CHANGELOG.md",
+    "dependencies": {
+    }
+}
