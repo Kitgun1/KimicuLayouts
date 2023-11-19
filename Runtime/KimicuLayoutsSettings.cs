@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace KimicuLayouts.Runtime
 {
-    [CreateAssetMenu(fileName = "new Layouts Settings", menuName = "Kimicu/LayoutsSettings", order = 0)]
     public class KimicuLayoutsSettings : ScriptableObject
     {
         private const string FolderPath = "Assets/Resources";
