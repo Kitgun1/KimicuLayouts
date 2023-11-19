@@ -188,6 +188,7 @@ namespace KimicuLayout.Editor
 
         private void Update()
         {
+            _event ??= Event.current;
             if (_event.type == EventType.MouseUp)
             {
                 for (int i = 0; i < 4; i++) _paddingLeftPress[i] = false;
