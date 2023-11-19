@@ -35,3 +35,7 @@ https://github.com/Kitgun1/KimicuLayots.git
 ![KiHorizontalLayout.gif](ExampleGifs%7E%2FKiHorizontalLayout.gif)
 
 ### There will be more Layouts coming soon..
+
+
+# Settings
+You can also customize the visual display in `Kimicu` > `Layouts Settings`.
