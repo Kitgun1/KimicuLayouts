@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -17,14 +18,14 @@ namespace KimicuLayouts.Runtime
         {
             get
             {
-                if (_instance != null) return _instance;
                 var settings = Resources.LoadAll<KimicuLayoutsSettings>("");
-                if (settings == null)
+                if (settings.Length == 0)
                 {
-                    settings =new []{CreateInstance<KimicuLayoutsSettings>()};
+                    settings = new[] { CreateInstance<KimicuLayoutsSettings>() };
                     if (!Directory.Exists(FolderPath)) Directory.CreateDirectory(FolderPath);
                     #if UNITY_EDITOR
                     AssetDatabase.CreateAsset(settings[0], Path);
+                    settings[0].Initialize();
                     AssetDatabase.SaveAssets();
                     #endif
                 }
@@ -35,15 +36,21 @@ namespace KimicuLayouts.Runtime
             }
         }
 
-        public PaddingTextures PaddingTextures = new PaddingTextures()
+        public void Initialize()
         {
-            { PaddingType.Group, null },
-            { PaddingType.Left, null },
-            { PaddingType.Right, null },
-            { PaddingType.Top, null },
-            { PaddingType.Bottom, null },
-        };
+            PaddingTextures = new PaddingTextures
+            {
+                { PaddingType.Group, Resources.Load<Texture2D>("Full-1") },
+                { PaddingType.Left, Resources.Load<Texture2D>("Expand_left_stop") },
+                { PaddingType.Right, Resources.Load<Texture2D>("Expand_right_stop") },
+                { PaddingType.Top, Resources.Load<Texture2D>("Expand_top_stop") },
+                { PaddingType.Bottom, Resources.Load<Texture2D>("Expand_down_stop") },
+            };
+            SpacingTexture = Resources.Load<Texture2D>("Move-2");
+            SizeTextures = (Resources.Load<Texture2D>("Fluid-1"), Resources.Load<Texture2D>("Fluid"));
+        }
 
+        public PaddingTextures PaddingTextures;
         public Texture2D SpacingTexture;
         public (Texture2D width, Texture2D height) SizeTextures;
     }

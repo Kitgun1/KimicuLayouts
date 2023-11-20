@@ -15,7 +15,7 @@ namespace KimicuLayout.Editor.Settings
         private const float Indent = 15;
 
         private static KimicuLayoutsSettings _settings;
-        private static GUIStyle _headerStyle;
+        private static GUIStyle _headerStyle = null;
 
         private bool _paddingFoldout;
         private bool _sizeFoldout;
@@ -26,21 +26,19 @@ namespace KimicuLayout.Editor.Settings
             KimicuLayoutsWindow window = GetWindow<KimicuLayoutsWindow>();
             window.titleContent = new GUIContent("Layouts Settings");
             window.Show();
-
-            _headerStyle = new GUIStyle(EditorStyles.foldout)
-            {
-                fontStyle = FontStyle.Bold,
-                imagePosition = ImagePosition.ImageLeft
-            };
         }
 
         private void CreateGUI()
         {
+            _paddingFoldout = EditorPrefs.GetBool(nameof(_paddingFoldout));
+            _sizeFoldout = EditorPrefs.GetBool(nameof(_sizeFoldout));
+            StylesLoad();
         }
 
         [Obsolete("Obsolete")]
         private void OnGUI()
         {
+            StylesLoad();
             _settings = KimicuLayoutsSettings.Instance;
             PaddingType[] paddingTypes =
             {
@@ -117,13 +115,22 @@ namespace KimicuLayout.Editor.Settings
                     content = new GUIContent(sizeNames[i]);
                     EditorGUI.PrefixLabel(labelRect, content);
                     if (i == 0)
-                        _settings.SizeTextures.width = (Texture2D)EditorGUI
-                            .ObjectField(valueRect, _settings.SizeTextures.width, typeof(Texture2D));
+                        _settings.SizeTextures.width = (Texture2D)EditorGUI.ObjectField(valueRect,
+                            _settings.SizeTextures.width, typeof(Texture2D));
                     else
-                        _settings.SizeTextures.height = (Texture2D)EditorGUI
-                            .ObjectField(valueRect, _settings.SizeTextures.height, typeof(Texture2D));
+                        _settings.SizeTextures.height = (Texture2D)EditorGUI.ObjectField(valueRect,
+                            _settings.SizeTextures.height, typeof(Texture2D));
                 }
             }
+        }
+
+        private static void StylesLoad()
+        {
+            _headerStyle ??= new GUIStyle(EditorStyles.foldout)
+            {
+                fontStyle = FontStyle.Bold,
+                imagePosition = ImagePosition.ImageLeft
+            };
         }
     }
 }
