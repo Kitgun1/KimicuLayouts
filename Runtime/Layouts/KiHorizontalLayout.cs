@@ -37,10 +37,8 @@ namespace KimicuLayouts.Runtime
 
             float childMaxHeight = float.MinValue;
 
-            for (int i = 0; i < rectChildren.Count; i++)
+            foreach (RectTransform child in rectChildren)
             {
-                RectTransform child = rectChildren[i];
-
                 if (child.sizeDelta.y > childMaxHeight) childMaxHeight = child.sizeDelta.y;
 
                 SetChildAlongAxis(child, 0, xPos, elementWidth);
@@ -73,7 +71,8 @@ namespace KimicuLayouts.Runtime
                 : (Width + Spacing) * countChild + m_Padding.horizontal - Spacing;
 
             float sizeY = m_Padding.vertical + (ByPercentage.Y || ControlSizeHeight ? Height : childMaxHeight);
-            rectTransform.sizeDelta = new Vector2(sizeX, sizeY);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, sizeX);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeY);
         }
 
         public override void CalculateLayoutInputVertical()
