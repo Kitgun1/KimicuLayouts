@@ -29,9 +29,9 @@ namespace KimicuLayout.Editor
 
         private void OnEnable()
         {
+            _event ??= Event.current;
             _paddingFoldout = EditorPrefs.GetBool(nameof(_paddingFoldout), true);
 
-            _layout = (KiHorizontalLayout)target;
             _headerStyle ??= new GUIStyle(EditorStyles.foldout)
             {
                 fontStyle = FontStyle.Bold,
@@ -43,14 +43,16 @@ namespace KimicuLayout.Editor
 
         private void OnDisable()
         {
+            _event ??= Event.current;
             EditorApplication.update -= Update;
         }
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
-            _event = Event.current;
+            _event ??= Event.current;
             _settings = KimicuLayoutsSettings.Instance;
+            _settings.TryInitialize();
+            _layout = (KiHorizontalLayout)target;
 
             // Padding
             Rect controlRect = EditorGUILayout.GetControlRect();
@@ -189,6 +191,7 @@ namespace KimicuLayout.Editor
         private void Update()
         {
             _event ??= Event.current;
+            if (_event == null) return;
             if (_event.type == EventType.MouseUp)
             {
                 for (int i = 0; i < 4; i++) _paddingLeftPress[i] = false;
@@ -200,26 +203,31 @@ namespace KimicuLayout.Editor
             for (int i = 0; i < 4; i++)
             {
                 if (!_paddingLeftPress[i]) continue;
+                Debug.LogWarning($"{(_event.delta.x / 10).Snap(0.1f)}");
                 var fields = _layout.Padding.GetType().GetProperties();
-                fields[i].SetValue(_layout.Padding, (int)fields[i].GetValue(_layout.Padding) + (int)_event.delta.x);
+                fields[i].SetValue(_layout.Padding,
+                    (int)fields[i].GetValue(_layout.Padding) + (int)_event.delta.x);
                 Repaint();
             }
 
             if (_spacingPress)
             {
-                _layout.Spacing += (int)_event.delta.x;
+                Debug.LogWarning($"{(_event.delta.x / 10).Snap(0.1f)}");
+                _layout.Spacing += (_event.delta.x / 10).Snap(0.1f);
                 Repaint();
             }
 
             if (_sizePress.X)
             {
-                _layout.Width += (int)_event.delta.x;
+                Debug.LogWarning($"{(_event.delta.x / 10).Snap(0.1f)}");
+                _layout.Width += (_event.delta.x / 10).Snap(0.1f);
                 Repaint();
             }
 
             if (_sizePress.Y)
             {
-                _layout.Height += (int)_event.delta.x;
+                Debug.LogWarning($"{(_event.delta.x / 10).Snap(0.1f)}");
+                _layout.Height += (_event.delta.x / 10).Snap(0.1f);
                 Repaint();
             }
         }
