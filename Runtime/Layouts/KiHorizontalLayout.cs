@@ -1,10 +1,11 @@
-﻿using KimicuUtility;
+﻿using System;
+using KimicuUtility;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace KimicuLayouts.Runtime
 {
-    public class KiHorizontalLayout : LayoutGroup
+    public class KiHorizontalLayout : LayoutGroup, ILayoutController, ILayoutElement
     {
         public RectOffset Padding => m_Padding;
         public float Spacing;
@@ -13,7 +14,6 @@ namespace KimicuLayouts.Runtime
         public bool ControlSizeHeight = true;
         public float Height = 50;
         public float Width = 50;
-        public bool VerticalFit;
 
         public override void CalculateLayoutInputHorizontal()
         {
@@ -65,14 +65,18 @@ namespace KimicuLayouts.Runtime
                 xPos += Spacing + elementWidth;
             }
 
-            if (!VerticalFit) return;
-            float sizeX = ByPercentage.X
-                ? containerWidth + m_Padding.horizontal
-                : (Width + Spacing) * countChild + m_Padding.horizontal - Spacing;
+            // For Content Size Fitter
+            float totalPreferred = ByPercentage.X
+                ? (elementWidth + Spacing) * rectChildren.Count + m_Padding.horizontal - Spacing
+                : (Width + Spacing) * rectChildren.Count + m_Padding.horizontal - Spacing;
+            float totalMin = padding.horizontal + (Width + Spacing) * rectChildren.Count - Spacing;
 
-            float sizeY = m_Padding.vertical + (ByPercentage.Y || ControlSizeHeight ? Height : childMaxHeight);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, sizeX);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeY);
+            SetLayoutInputForAxis(totalMin, totalPreferred, -1, 0);
+            
+             totalPreferred = m_Padding.vertical + (ByPercentage.Y || ControlSizeHeight ? Height : childMaxHeight);
+             totalMin = padding.vertical + Height;
+
+            SetLayoutInputForAxis(totalMin, totalPreferred, -1, 1);
         }
 
         public override void CalculateLayoutInputVertical()

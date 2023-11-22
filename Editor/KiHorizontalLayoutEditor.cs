@@ -177,13 +177,6 @@ namespace KimicuLayout.Editor
             _layout.ControlSizeHeight = EditorGUI.Toggle(valueRect, _layout.ControlSizeHeight);
             if (!_layout.ControlSizeHeight) _layout.ByPercentage.Y = false;
 
-            labelRect = new Rect(controlRect.xMax - 15 - 65, controlRect.y, 60 + Spacing, controlRect.height);
-            valueRect = new Rect(controlRect.xMax - 15, controlRect.y, 15, controlRect.height);
-            content = new GUIContent("Vertical Fit");
-            EditorGUI.PrefixLabel(labelRect, content);
-            _layout.VerticalFit = EditorGUI.Toggle(valueRect, _layout.VerticalFit);
-
-
             Repaint();
             _layout.CalculateLayoutInputHorizontal();
         }
