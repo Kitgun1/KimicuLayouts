@@ -26,7 +26,7 @@ https://github.com/Kitgun1/KimicuUtility.git
 
 4) `Window` -> `Package Manager` > `+` > `Add package from git URL...`:
 ```
-https://github.com/Kitgun1/KimicuLayots.git 
+https://github.com/Kitgun1/KimicuLayouts.git 
 ```
 
 ---------------------------------------------------------------------------
